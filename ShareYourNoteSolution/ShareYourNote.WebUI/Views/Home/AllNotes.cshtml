@@ -1,0 +1,74 @@
+﻿@model List<ShareYourNote.Entities.Note>
+
+@{
+    ViewBag.Title = "AllNotes";
+}
+
+<main role="main" class="container">
+    <br />
+    <div class="row">
+        <div class="col-md-12 blog-main">
+            <h3 class="pb-3 mb-4 font-italic border-bottom">
+                Tüm Notlar
+            </h3>
+            <div class="d-flex justify-content-end mb-3">
+                @using (Html.BeginForm("AllNotes", "Home", FormMethod.Get))
+                {
+                    <div class="form-inline my-2 my-lg-0">
+                        @Html.TextBox("q", null, new { @class = "form-control mr-sm-2" })
+                        <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Ara</button>
+                    </div>
+                }
+            </div>
+
+            <div class="row mb-2">
+                @foreach (var note in Model)
+                {
+                    <div class="col-md-6">
+                        <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                            <div class="card-body d-flex flex-column align-items-start">
+                                <p>
+                                    <strong class="d-inline-block mb-2 text-primary">@note.Teacher.School.Name</strong>
+                                    <strong class="d-inline-block mb-2 text-secondary"> //</strong>
+                                    <strong class="d-inline-block mb-2 text-success">@note.Teacher.Name</strong>
+                                </p>
+                                <h3 class="mb-0">
+                                    @if (note.Title.Length <= 10)
+                                    {
+                                        <a class="text-dark" href="/Note/Details/@note.Id">@note.Title</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="text-dark" href="/Note/Details/@note.Id">@note.Title.Substring(0, 10)...</a>
+                                    }
+                                </h3>
+                                <div class="mb-1 text-muted">@note.UploadDate.ToShortDateString()</div>
+
+                                @if (note.Description.Length <= 50)
+                                {
+                                    <p class="card-text mb-auto">
+                                        @note.Description
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="card-text mb-auto">
+                                        @note.Description.Substring(0, 50)...
+                                    </p>
+                                }
+                                <a href="#">Tamamını Göster</a>
+                            </div>
+
+                            <img class="card-img-right flex-auto d-none d-md-block" src="/UploadedFiles/DefaultImages/pdf.jpg" />
+
+
+                            <!-- <iframe class="card-img-right flex-auto d-none d-md-block" src="/UploadedFiles/UserNotes/@note.UploadedFile" style="width:200px; height:250px;" frameborder="0"></iframe>  -->
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div><!-- /.blog-main -->
+    </div><!-- /.row -->
+</main>
+

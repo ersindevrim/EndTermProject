@@ -1,0 +1,92 @@
+﻿@model ShareYourNote.Entities.ShareYourNoteUser
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div class="container py-5">
+    <h2 class="text-center pb-2"></h2>
+    <div class="row">
+        <div class="col-lg-3 justify-content-center">
+            <div class="col-lg-12 card h-100">
+                <div class="card-body ">
+                    <div class="mx-auto">
+                        <img src="~/UploadedFiles/ProfileImages/@Model.ProfilePhotoName" class="img-circle" width="190" height="200" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 ">
+            <div class="col-lg-12 card h-100">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">@Model.Username</h2>
+
+                    <div class="mx-auto col-sm-10">
+                        <b>İsim :</b> @Model.Name
+                    </div>
+                    <div class="mx-auto col-sm-10">
+                        <b>Soyisim  :</b> @Model.Surname
+                    </div>
+                    <div class="mx-auto col-sm-10">
+                        <b>Kullanıcı Adı :</b> @Model.Username
+                    </div>
+                    <div class="mx-auto col-sm-10">
+                        <b>E-Posta  :</b> @Model.Email
+                    </div>
+                    <div class="mx-auto col-sm-10">
+                        <b>Şifre  :</b> @Model.Password
+                    </div>
+                    <div class="mx-auto col-sm-10">
+                        <b>Guid  :</b> @Model.ActivateGuid
+                    </div>
+                    <div class="mx-auto col-sm-10">
+                        <b>Aktif  :</b>
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge badge-success">
+                                <span class="fa fa-check"></span>
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">
+                                <span class="fa fa-times"></span>
+                            </span>
+                        }
+
+                    </div>
+                    <div class="mx-auto col-sm-10">
+                        <b>Admin  :</b>
+                        @if (Model.IsAdmin)
+                        {
+                            <span class="badge badge-success">
+                                <span class="fa fa-check"></span>
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">
+                                <span class="fa fa-times"></span>
+                            </span>
+                        }
+
+                    </div>
+                    
+
+                    <div class="mx-auto col-sm-10 pb-3 pt-2">
+
+                        <p>
+                            @Html.ActionLink("Düzenle", "Edit", new {id = Model.Id}, new { @class = "btn btn-sm btn-primary" })
+                            @Html.ActionLink("Geri", "Index",null, new { @class = "btn btn-sm btn-danger" })
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+   
+</div>
+

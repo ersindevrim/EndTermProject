@@ -1,0 +1,82 @@
+﻿@model List<ShareYourNote.Entities.Note>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+    <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+        <div class="col-md-6 px-0">
+            <h1 class="display-4 font-italic">Title of a longer featured blog post</h1>
+            <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.</p>
+            <p class="lead mb-0"><a href="#" class="text-white font-weight-bold">Continue reading...</a></p>
+        </div>
+    </div>
+</div>
+
+<main role="main" class="container">
+    <div class="row">
+        <div class="col-md-12 blog-main">
+            <h3 class="pb-3 mb-4 font-italic border-bottom">
+                Son Eklenen Notlar
+            </h3>
+            <div class="row mb-2">
+                @foreach (var note in Model)
+                {
+                    <div class="col-md-6">
+                        <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                            <div class="card-body d-flex flex-column align-items-start">
+                                <p>
+                                    <strong class="d-inline-block mb-2 text-primary">@note.Teacher.School.Name</strong>
+                                    <strong class="d-inline-block mb-2 text-secondary"> //</strong>
+                                    <strong class="d-inline-block mb-2 text-success">@note.Teacher.Name</strong>
+                                </p>
+                                <h3 class="mb-0">
+                                    @if (note.Title.Length <= 10)
+                                    {
+                                        <a class="text-dark" href="/Note/Details/@note.Id">@note.Title</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="text-dark" href="/Note/Details/@note.Id">@note.Title.Substring(0, 10)...</a>
+                                    }
+                                </h3>
+                                <div class="mb-1 text-muted">@note.UploadDate.ToShortDateString()</div>
+
+                                @if (note.Description.Length <= 50)
+                                {
+                                    <p class="card-text mb-auto">
+                                        @note.Description
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="card-text mb-auto">
+                                        @note.Description.Substring(0, 50)...
+                                    </p>
+                                }
+                                <a href="/Note/Details/@note.Id">Tamamını Göster</a>
+                            </div>
+                            @{
+                                string not = note.UploadedFile;
+                                int lenght = not.Length;
+                                int where = not.IndexOf(".");
+                                string kisa = not.Substring(where, lenght - where);
+                            }
+                            @if (kisa == ".pdf")
+                            {
+                                <img class="card-img-right flex-auto d-none d-md-block" src="/UploadedFiles/DefaultImages/pdf.jpg" />
+
+                            }
+                            else if (kisa == ".docx")
+                            {
+                                <img class="card-img-right flex-auto d-none d-md-block" src="/UploadedFiles/DefaultImages/docx.png" />
+                            }
+                            <!-- <iframe class="card-img-right flex-auto d-none d-md-block" src="/UploadedFiles/UserNotes/@note.UploadedFile" style="width:200px; height:250px;" frameborder="0"></iframe>  -->
+                        </div>
+                    </div>
+                                }
+            </div>
+
+        </div><!-- /.blog-main -->
+    </div><!-- /.row -->
+</main><!-- /.container -->

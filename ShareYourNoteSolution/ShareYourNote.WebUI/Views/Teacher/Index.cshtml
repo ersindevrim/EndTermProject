@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ShareYourNote.Entities.Teacher>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+    <h2>Öğretmenler</h2>
+
+    <p>
+        @Html.ActionLink("Yeni Öğretmen Ekle", "Create", null, new { @class = "btn btn-sm btn-primary" })
+    </p>
+    <table class="table">
+        <tr>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.School.Name)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="text-center">
+                @Html.DisplayName("Onay Durumu")
+            </th>
+            <th style="width: 140px;"></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.School.Name)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="text-center">
+                    @if (item.IsApproved)
+                    {
+                        <span class="badge badge-pill badge-success">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-pill badge-danger">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </span>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Duzenle", "Edit", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                    @Html.ActionLink("Sil", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

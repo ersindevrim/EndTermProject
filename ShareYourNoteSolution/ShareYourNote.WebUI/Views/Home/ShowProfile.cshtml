@@ -1,0 +1,46 @@
+﻿@model ShareYourNote.Entities.ShareYourNoteUser
+
+@{
+    ViewBag.Title = "ShowProfile";
+}
+<div class="container py-5">
+    <h2 class="text-center pb-2"></h2>
+    <div class="row">
+        <div class="col-lg-3 justify-content-center">
+            <div class="col-lg-12 card h-100">
+                <div class="card-body ">
+                    <div class="mx-auto col-sm-10">
+                        <img src="~/UploadedFiles/ProfileImages/@Model.ProfilePhotoName" class="img-circle" width="128" height="128" />
+                        <a href="@Url.Action("RemoveProfile")" onclick="return confirm('Hesabınızı silmek istediğinizden eminmisiniz?');">Hesabı Sil</a>
+                        </div>
+                    </div>                
+            </div>
+        </div>
+        <div class="col-lg-9 ">
+            <div class="col-lg-12 card h-100">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">@Model.Username</h2>
+                   
+                    <div class="mx-auto col-sm-10">
+                        <b>İsim :</b> @Model.Name
+                    </div>
+                    <div class="mx-auto col-sm-10">
+                        <b>Soyisim  :</b> @Model.Surname
+                    </div>
+                    <div class="mx-auto col-sm-10">
+                        <b>Kullanıcı Adı :</b> @Model.Username
+                    </div>
+                    <div class="mx-auto col-sm-10">
+                        <b>E-Posta  :</b> @Model.Email
+                    </div>                    
+                    <div class="mx-auto col-sm-10 pb-3 pt-2">
+                        
+                        <a href="/Home/EditProfile/" class="btn btn-outline-secondary btn-lg btn-block">Profili Düzenle</a>                        
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+</div>

@@ -1,0 +1,76 @@
+﻿@model ShareYourNote.Entities.Note
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="container">
+
+    @using (Html.BeginForm("Create", "Note", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Yeni bir not ekliyorsunuz..</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Dosya", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.HiddenFor(model => model.UploadedFile)
+                    <input type="file" name="attechedFile" class="form-control"/><br/>
+                    <div class="alert alert-info" role="alert">
+                        <i class="fa fa-exclamation" aria-hidden="true"></i>
+                        <span><i>Lütfen <b>PDF</b> formatı kullanın.</i></span>
+                    </div>                    
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TeacherId, "TeacherId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("TeacherId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TeacherId, "", new { @class = "text-danger" })
+                    <br/>
+                    <div class="alert alert-info" role="alert">
+                        <i class="fa fa-exclamation" aria-hidden="true"></i>
+                        <span><i>Öğretmeniniz Yukarıda listelenmemiş ise aşağıda OKUL / Öğretmen şeklinde bildirip işleminize devam ediniz.</i></span>
+                    </div> 
+                </div>
+                   
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.OlmayanOgretmen, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.OlmayanOgretmen, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.OlmayanOgretmen, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Oluştur" class="btn btn-success" />
+                    @Html.ActionLink("İptal", "Index",null,new {@class="btn btn-danger"})
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

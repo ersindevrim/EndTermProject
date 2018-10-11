@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ShareYourNote.Entities.School>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+    <h2>Okullar</h2>
+
+    <p>
+        @Html.ActionLink("Yeni Okul Ekle", "Create",null,new {@class="btn btn-primary"})
+    </p>
+    <table class="table text-center">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayName("Onay Durumu")
+            </th>
+            <th style="width: 150px;"></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @if (item.IsApproved)
+                    {
+                        <span class="badge badge-pill badge-success">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-pill badge-danger">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </span>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Duzenle", "Edit", new { id = item.Id }, new { @class = "btn btn-success btn-sm" })
+                    @Html.ActionLink("Sil", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

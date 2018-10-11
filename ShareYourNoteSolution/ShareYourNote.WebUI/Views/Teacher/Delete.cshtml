@@ -1,0 +1,52 @@
+﻿@model ShareYourNote.Entities.Teacher
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="container">
+
+    <div class="alert alert-danger" role="alert">
+        @Model.Name isimli öğretmeni silmek istediğiniz emin misiniz?
+    </div>
+    <div>
+        <h4>Silinecek Öğretmen Bilgileri</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.School.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.School.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+               @Html.DisplayName("Onay Durumu")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsApproved)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Sil" class="btn btn-danger" />
+                @Html.ActionLink("İptal", "Index",null, new { @class = "btn btn-primary" })
+            </div>
+        }
+    </div>
+</div>

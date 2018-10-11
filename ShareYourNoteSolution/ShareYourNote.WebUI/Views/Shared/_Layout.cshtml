@@ -1,0 +1,117 @@
+﻿@using ShareYourNote.Entities
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="~/Content/img/favicon.ico">
+    <title>Not Paylas</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font/google.css" rel="stylesheet" />
+    <script src="~/scripts/jquery-3.3.1.min.js"></script> 
+    <link href="~/Content/css/theme.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    @{
+        ShareYourNoteUser user = null;
+
+        if (Session["login"] != null)
+        {
+            user = Session["login"] as ShareYourNoteUser;            
+        }
+    }
+
+    <div class="container">
+        <header class="blog-header py-3">
+            <div class="row flex-nowrap justify-content-between align-items-center">
+                <div class="col-4 pt-1">
+                    @if (user != null && user.IsAdmin)
+                    {
+                        <!-- <a class="text-muted" href="#">Yönetim Paneli</a> -->
+                        <div class="dropdown">
+                            <a class="btn btn-sm btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropDownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Yönetim Paneli
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropDownAdmin">
+                                <a class="dropdown-item" href="/Teacher/Index">Öğretmenler</a>
+                                <a class="dropdown-item" href="/School/Index">Okullar</a>
+                                <a class="dropdown-item" href="/User/Index">Üyeler</a>
+                                <a class="dropdown-item" href="/Note/AdminNotes">Notlar</a>
+                            </div>
+                        </div>
+                    }
+                </div> <!-- Yönetim Paneli-->
+                <div class="col-4 text-center">
+                    <a class="blog-header-logo text-dark" href="/">Not Paylas</a>
+                </div><!-- Başlık-->
+                <div class="col-4 d-flex justify-content-end align-items-center">
+                    @if (user != null)
+                    {
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-outline-secondary" href="/Home/ShowProfile">@user.Username</a>
+                            <button type="button" class="btn btn-sm btn-outline-secondary mr-1 dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/Note">Notlarım</a>
+                                <a class="dropdown-item" href="/Note/Create">Not Paylaş</a>                               
+                            </div>
+                        </div>
+
+                        <a class="btn btn-sm btn-outline-secondary" href="/Home/Logout">Çıkış Yap</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-sm btn-outline-secondary mr-1" href="/Home/Login">Giriş Yap</a>
+                        <a class="btn btn-sm btn-outline-secondary" href="/Home/Register">Üye OL</a>
+                    }
+                </div>
+            </div>
+        </header>
+
+
+
+        <div class="nav-scroller py-1 mb-2">
+            <nav class="nav d-flex justify-content-between">
+                <a class="p-2 text-muted" href="/">Ana Sayfa</a>
+                <a class="p-2 text-muted" href="/Home/AllNotes">Tüm Notlar</a>
+                <a class="p-2 text-muted" href="/Home/PopularNotes">Popüler Notlar</a>
+                <!-- 7 Adet Sildim -->
+                <a class="p-2 text-muted" href="#">Hakkımızda</a>
+                <a class="p-2 text-muted" href="#">İletişim</a>
+            </nav>
+        </div>
+    </div>
+
+    @RenderBody()
+
+    <footer class="blog-footer mt-5">
+        <p> Copyright Ersin DEVRIM 2018 | All Rights Reserved</p>
+        <p>
+            <a href="#">En Üste Git</a> 
+        </p>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+
+    <script>window.jQuery || document.write('<script src="~/Content/js/jquery-slim.min.js"><\/script>')</script>
+    <script src="~/Content/js/popper.min.js"></script>
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <script src="~/Content/js/holder.min.js"></script>
+    <script>
+        Holder.addTheme('thumb', {
+            bg: '#55595c',
+            fg: '#eceeef',
+            text: 'Thumbnail'
+        });
+    </script>
+
+</body>
+</html>

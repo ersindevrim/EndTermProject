@@ -1,0 +1,58 @@
+﻿@using ShareYourNote.Entities
+@using ShareYourNote.WebUI.Models
+@model List<ShareYourNote.Entities.Comment>
+
+@{
+    ShareYourNoteUser user = SessionManager.User;
+}
+
+<div class="media">
+    <div class="media-body">
+        @foreach (var item in Model)
+        {
+            <div class="row">
+                <div class="col-md-9">
+                    <h5 class="media-heading">
+                        @item.Owner.Username
+                    </h5>
+                    <span id="comment_@item.Id" contenteditable="false">
+                        @item.Text
+                    </span>
+                </div>
+                @if (user != null && user.Id == item.Owner.Id)
+                {
+                <div class="col-md-3 text-right align-self-center">
+                    <button type="button" class="btn btn-warning btn-sm" data-edit-mode="false" onclick="doComment(this,'edit','@item.Id','comment_@item.Id');">
+                        <span class="fa fa-pencil" aria-hidden="true">
+                        </span>
+                    </button>
+
+                    <button type="button" class="btn btn-danger btn-sm" onclick="doComment(this,'delete','@item.Id');">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                </div>
+                }
+            </div>
+            <hr />
+        }
+    </div>
+</div>
+
+@if (user != null)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="input-group mb-3">
+                <input type="text" id="new_comment_text" class="form-control" placeholder="Yorumunuz.." aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="doComment(this,'new',-1);" >Yorum Yap</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

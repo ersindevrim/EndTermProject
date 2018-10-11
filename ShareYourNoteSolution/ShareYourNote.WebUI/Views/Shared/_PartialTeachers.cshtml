@@ -1,0 +1,26 @@
+﻿@using ShareYourNote.Business
+@using ShareYourNote.Entities
+
+@{
+    TeacherManager teacherManager = new TeacherManager();
+    List<Teacher> list = teacherManager.GetTeachers();
+}
+ 
+<div class="col-md-2">
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Okul Seçiniz
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/Home/Schools">Tümü</a>
+            @foreach (var item in list)
+            {
+                <a class="dropdown-item" href="/Home/Schools/@item.Id">@item.Name</a>
+            }
+        </div>
+        
+        
+
+    </div>
+</div>
+

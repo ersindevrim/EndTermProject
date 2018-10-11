@@ -1,0 +1,184 @@
+﻿@model ShareYourNote.Entities.Note
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="container">
+    <div class="alert alert-info" role="alert">
+        @Model.Title Başlıklı Notu inceliyorunuz.
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <iframe class="card-img-right flex-auto d-none d-md-block"
+                    src="/UploadedFiles/UserNotes/@Model.UploadedFile"
+                    style="width: 100%; height: 100%; border: 2px;"
+                    title="Test"
+                    name="Test"
+                    rameborder="0"></iframe>
+            <!--
+            TODO: IFRAME Başlığını düzenle
+            -->
+        </div>
+        <div class="col-md-8">
+
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Owner.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Owner.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Teacher.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Teacher.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.UploadDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.UploadDate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsApproved)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.IsApproved)
+                </dd>
+            </dl>
+            <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#modal_comment" data-note-id="@Model.Id">
+                Yorumlar
+            </button>
+        </div>
+    </div>
+
+</div>
+
+@Bootstrap.ModalPopup(id: "modal_comment", title: @Model.Title)
+
+<script>
+
+    var modalCommentBodyId = "#modal_comment_body";
+    var noteId = -1;
+
+    $(function () {
+        $('#modal_comment').on('show.bs.modal', function (e) {
+
+            var button = $(e.relatedTarget);
+            noteId = button.data("note-id");
+
+            $(modalCommentBodyId).load("/comment/ShowNoteComments/" + noteId);
+        });
+    });
+
+    function doComment(btn, moment, commentId, spanId) {
+
+        var button = $(btn);
+        var mode = button.data("edit-mode");
+
+        if (moment === "edit") {
+            if (!mode) {
+                button.data("edit-mode", true);
+                button.removeClass("btn-warning");
+                button.addClass("btn-success");
+                var btnspan = button.find("span");
+                btnspan.removeClass("fa fa-pencil");
+                btnspan.addClass("fa fa-check");
+
+                $("#" + spanId).addClass("editable");
+                $("#" + spanId).attr("contenteditable", true);
+            } else {
+                button.data("edit-mode", false);
+                button.addClass("btn-warning");
+                button.removeClass("btn-success");
+                var btnspan = button.find("span");
+                btnspan.addClass("fa-pencil");
+                btnspan.removeClass("fa-check");
+
+                $("#" + spanId).removeClass("editable");
+                $("#" + spanId).attr("contenteditable", false);
+
+                var txt = $("#" + spanId).text();
+
+                $.ajax({
+                    method: "POST",
+                    url: "/Comment/Edit/" + commentId,
+                    data: { text: txt }
+                }).done(function (data) {
+                    if (data.result) {
+                        //TODO: Yorumları tekrar yükle
+                        $(modalCommentBodyId).load("/comment/ShowNoteComments/" + noteId);
+                    } else {
+                        alert("Yorum Güncellenemedi");
+                    }
+
+                }).fail(function () {
+                    alert("Sunucu ile bağlantı kurulamadı");
+                });
+            }
+        } else if (moment === "delete") {
+            var dialog_res = confirm("Yorum silinsinmi");
+            if (!dialog_res) {
+                return false;
+            }
+
+            $.ajax({
+                method: "GET",
+                url: "/Comment/Delete/" + commentId,
+            }).done(function (data) {
+                if (data.result) {
+                    //TODO: Yorumları tekrar yükle
+                    $(modalCommentBodyId).load("/comment/ShowNoteComments/" + noteId);
+                } else {
+                    alert("Yorum silinemedi");
+                }
+            }).fail(function (data) {
+                alert("Sunucu ile bağlantı kurulamadı");
+            });
+        } else if (moment === "new") {
+
+            var newtxt = $("#new_comment_text").val();
+
+            $.ajax({
+                method: "Post",
+                url: "/Comment/Create",
+                data: { "text": newtxt, "noteid": noteId }
+            }).done(function (data) {
+                if (data.result) {
+                    //TODO: Yorumları tekrar yükle
+                    $(modalCommentBodyId).load("/comment/ShowNoteComments/" + noteId);
+                } else {
+                    alert("Yorum eklenemedi");
+                }
+            }).fail(function (data) {
+                alert("Sunucu ile bağlantı kurulamadı");
+            });
+        }
+    }
+
+</script> <!-- Modal Popup -->
